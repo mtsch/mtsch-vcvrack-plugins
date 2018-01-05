@@ -1,5 +1,5 @@
 SLUG = mtsch-plugins
-VERSION = 0.0.1
+VERSION = 0.1.0
 
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS +=
