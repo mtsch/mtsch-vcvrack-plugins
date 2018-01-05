@@ -4,6 +4,6 @@ using namespace rack;
 
 extern Plugin *plugin;
 
-struct PlusMinusWidget : ModuleWidget {
-	PlusMinusWidget();
+struct SumWidget : ModuleWidget {
+	SumWidget();
 };

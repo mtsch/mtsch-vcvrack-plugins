@@ -4,10 +4,10 @@
 #define NUM_CHANNELS 8
 #define SPACING 35
 #define X_POSITION 10
-#define Y_INPUT_POSITION 85
-#define Y_OUTPUT_POSITION 45
+#define Y_INPUT_POSITION 77
+#define Y_OUTPUT_POSITION 23
 
-struct PlusMinus : Module {
+struct Sum : Module {
 	enum ParamIds {
         PARAMS,
 		NUM_PARAMS = PARAMS + NUM_CHANNELS
@@ -24,7 +24,7 @@ struct PlusMinus : Module {
 		NUM_LIGHTS
 	};
 
-	PlusMinus() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+	Sum() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
 	void step() override;
 
 	// For more advanced Module features, read Rack's engine.hpp header file
@@ -33,7 +33,7 @@ struct PlusMinus : Module {
 	// - onReset, onRandomize, onCreate, onDelete: implements special behavior when user clicks these from the context menu
 };
 
-void PlusMinus::step() {
+void Sum::step() {
     // Sum the inputs.
     float acc = 0;
 
@@ -44,15 +44,15 @@ void PlusMinus::step() {
     outputs[OUTPUT].value = acc;
 }
 
-PlusMinusWidget::PlusMinusWidget() {
-	PlusMinus *module = new PlusMinus();
+SumWidget::SumWidget() {
+	Sum *module = new Sum();
 	setModule(module);
 	box.size = Vec(4 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
 	{
 		SVGPanel *panel = new SVGPanel();
 		panel->box.size = box.size;
-		panel->setBackground(SVG::load(assetPlugin(plugin, "res/PlusMinus.svg")));
+		panel->setBackground(SVG::load(assetPlugin(plugin, "res/Sum.svg")));
 		addChild(panel);
 	}
 
@@ -61,10 +61,10 @@ PlusMinusWidget::PlusMinusWidget() {
 
     for (int i = 0; i < NUM_CHANNELS; i++) {
       addInput(createInput<PJ301MPort>(Vec(X_POSITION, Y_INPUT_POSITION + i * SPACING),
-                                       module, PlusMinus::INPUTS + i));
+                                       module, Sum::INPUTS + i));
       addParam(createParam<CKSSThree>(Vec(X_POSITION + 30, Y_INPUT_POSITION + i * SPACING),
-                                      module, PlusMinus::PARAMS + i, -1, 1, 1));
+                                      module, Sum::PARAMS + i, -1, 1, 1));
     }
 
-	addOutput(createOutput<PJ301MPort>(Vec(X_POSITION, Y_OUTPUT_POSITION), module, PlusMinus::OUTPUT));
+	addOutput(createOutput<PJ301MPort>(Vec(X_POSITION, Y_OUTPUT_POSITION), module, Sum::OUTPUT));
 }
