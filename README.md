@@ -1,6 +1,6 @@
 # mtsch plugins
 
-Two modules for [VCVRack](https://github.com/VCVRack/Rack).
+My modules for [VCVRack](https://github.com/VCVRack/Rack).
 
 ### Rationals
 
@@ -17,3 +17,8 @@ example).
 ![sum](images/Sum.png)
 
 Add, subtract or mute signals.
+
+## Thanks
+
+Digital display in Rationals taken from
+[luckyxxl](https://github.com/luckyxxl/vcv_luckyxxl).
