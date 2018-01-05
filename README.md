@@ -9,7 +9,7 @@ My modules for [VCVRack](https://github.com/VCVRack/Rack).
 Modify a volt/octave input by a rational number. Outputs constants on no input.
 The rationals can be controlled by CV inputs at the top. Useful for making
 music in [just intonation](https://en.wikipedia.org/wiki/Just_intonation) (see
-[`examples/`](examples/example-rationals.vcv) for a basic
+[`examples`](examples) for a basic
 example).
 
 ### Sum
