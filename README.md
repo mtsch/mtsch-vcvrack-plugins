@@ -4,7 +4,7 @@ Two modules for [VCVRack](https://github.com/VCVRack/Rack).
 
 ### Rationals
 
-![rationals](images/rationals.png)
+![rationals](images/Rationals.png)
 
 Modify a volt/octave input by a rational number. Outputs constants on no input.
 The rationals can be controlled by CV inputs at the top. Useful for creating
@@ -14,6 +14,6 @@ example).
 
 ### Sum
 
-![sum](images/sum.png)
+![sum](images/Sum.png)
 
 Add, subtract or mute signals.
