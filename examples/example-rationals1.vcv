@@ -65,7 +65,7 @@
       "plugin": "Core",
       "model": "AudioInterface",
       "pos": [
-        1170.0,
+        1110.0,
         0.0
       ],
       "params": [],
@@ -245,15 +245,6 @@
       "text": "Flick the switches in Sum to change the melody."
     },
     {
-      "plugin": "AudibleInstruments",
-      "model": "Links",
-      "pos": [
-        1110.0,
-        0.0
-      ],
-      "params": []
-    },
-    {
       "plugin": "Fundamental",
       "model": "Scope",
       "pos": [
@@ -312,12 +303,6 @@
       "inputId": 3
     },
     {
-      "outputModuleId": 4,
-      "outputId": 0,
-      "inputModuleId": 12,
-      "inputId": 0
-    },
-    {
       "outputModuleId": 5,
       "outputId": 1,
       "inputModuleId": 4,
@@ -352,18 +337,6 @@
       "outputId": 1,
       "inputModuleId": 3,
       "inputId": 0
-    },
-    {
-      "outputModuleId": 12,
-      "outputId": 2,
-      "inputModuleId": 1,
-      "inputId": 0
-    },
-    {
-      "outputModuleId": 12,
-      "outputId": 1,
-      "inputModuleId": 1,
-      "inputId": 1
     },
     {
       "outputModuleId": 8,
@@ -404,25 +377,37 @@
     {
       "outputModuleId": 3,
       "outputId": 0,
-      "inputModuleId": 13,
+      "inputModuleId": 12,
       "inputId": 1
     },
     {
       "outputModuleId": 2,
       "outputId": 0,
-      "inputModuleId": 13,
+      "inputModuleId": 12,
       "inputId": 0
     },
     {
       "outputModuleId": 5,
       "outputId": 0,
-      "inputModuleId": 14,
+      "inputModuleId": 13,
       "inputId": 0
     },
     {
       "outputModuleId": 3,
       "outputId": 0,
-      "inputModuleId": 14,
+      "inputModuleId": 13,
+      "inputId": 1
+    },
+    {
+      "outputModuleId": 4,
+      "outputId": 0,
+      "inputModuleId": 1,
+      "inputId": 0
+    },
+    {
+      "outputModuleId": 4,
+      "outputId": 0,
+      "inputModuleId": 1,
       "inputId": 1
     }
   ]

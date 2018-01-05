@@ -5,7 +5,7 @@
       "plugin": "Core",
       "model": "AudioInterface",
       "pos": [
-        840.0,
+        975.0,
         0.0
       ],
       "params": [],
@@ -20,7 +20,7 @@
       "plugin": "Fundamental",
       "model": "VCO",
       "pos": [
-        675.0,
+        480.0,
         380.0
       ],
       "params": [
@@ -31,27 +31,13 @@
         0.5,
         0.0,
         0.0
-      ]
-    },
-    {
-      "plugin": "Fundamental",
-      "model": "VCMixer",
-      "pos": [
-        630.0,
-        0.0
-      ],
-      "params": [
-        0.070500008761882782,
-        0.25499993562698364,
-        0.26700001955032349,
-        0.20399999618530273
       ]
     },
     {
       "plugin": "Fundamental",
       "model": "VCO",
       "pos": [
-        525.0,
+        330.0,
         380.0
       ],
       "params": [
@@ -62,51 +48,6 @@
         0.5,
         0.0,
         0.0
-      ]
-    },
-    {
-      "plugin": "mtsch-plugins",
-      "model": "Rationals",
-      "pos": [
-        555.0,
-        1140.0
-      ],
-      "params": [
-        3.0250008106231689,
-        4.352501392364502,
-        5.8825020790100098,
-        7.9525041580200195,
-        8.5150003433227539,
-        7.1650056838989258,
-        11.192502975463867,
-        12.767499923706055
-      ]
-    },
-    {
-      "plugin": "AudibleInstruments",
-      "model": "Links",
-      "pos": [
-        780.0,
-        0.0
-      ],
-      "params": []
-    },
-    {
-      "plugin": "mtsch-plugins",
-      "model": "Sum",
-      "pos": [
-        885.0,
-        1140.0
-      ],
-      "params": [
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0,
-        1.0
       ]
     },
     {
@@ -121,8 +62,8 @@
         8.1024932861328125,
         7.9975032806396484,
         8.9800119400024414,
-        1.0,
-        1.0,
+        6.6025028228759766,
+        16.0,
         1.0,
         1.0
       ]
@@ -269,8 +210,8 @@
       "plugin": "Fundamental",
       "model": "Scope",
       "pos": [
-        330.0,
-        380.0
+        780.0,
+        0.0
       ],
       "params": [
         0.0,
@@ -291,7 +232,7 @@
       "plugin": "Fundamental",
       "model": "VCF",
       "pos": [
-        825.0,
+        780.0,
         380.0
       ],
       "params": [
@@ -299,14 +240,14 @@
         0.5,
         0.42300039529800415,
         0.13199999928474426,
-        0.40050008893013
+        0.29250016808509827
       ]
     },
     {
       "plugin": "Fundamental",
       "model": "LFO",
       "pos": [
-        945.0,
+        990.0,
         380.0
       ],
       "params": [
@@ -323,7 +264,7 @@
       "plugin": "Fundamental",
       "model": "LFO2",
       "pos": [
-        1095.0,
+        900.0,
         380.0
       ],
       "params": [
@@ -333,116 +274,181 @@
         1.5,
         0.5
       ]
+    },
+    {
+      "plugin": "Fundamental",
+      "model": "VCO",
+      "pos": [
+        630.0,
+        380.0
+      ],
+      "params": [
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.5,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "plugin": "mtsch-plugins",
+      "model": "Sum",
+      "pos": [
+        630.0,
+        0.0
+      ],
+      "params": [
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "plugin": "Fundamental",
+      "model": "VCA",
+      "pos": [
+        690.0,
+        0.0
+      ],
+      "params": [
+        0.19249990582466125,
+        0.5
+      ]
     }
   ],
   "wires": [
     {
-      "outputModuleId": 2,
-      "outputId": 0,
-      "inputModuleId": 12,
-      "inputId": 3
-    },
-    {
-      "outputModuleId": 5,
-      "outputId": 2,
-      "inputModuleId": 0,
-      "inputId": 0
-    },
-    {
-      "outputModuleId": 5,
-      "outputId": 1,
-      "inputModuleId": 0,
-      "inputId": 1
-    },
-    {
       "outputModuleId": 1,
       "outputId": 3,
-      "inputModuleId": 11,
+      "inputModuleId": 7,
       "inputId": 1
     },
     {
-      "outputModuleId": 7,
+      "outputModuleId": 3,
       "outputId": 1,
       "inputModuleId": 1,
       "inputId": 0
     },
     {
-      "outputModuleId": 3,
+      "outputModuleId": 2,
       "outputId": 3,
-      "inputModuleId": 11,
-      "inputId": 0
-    },
-    {
-      "outputModuleId": 3,
-      "outputId": 3,
-      "inputModuleId": 2,
-      "inputId": 1
-    },
-    {
-      "outputModuleId": 1,
-      "outputId": 3,
-      "inputModuleId": 2,
-      "inputId": 3
-    },
-    {
-      "outputModuleId": 8,
-      "outputId": 2,
-      "inputModuleId": 9,
-      "inputId": 4
-    },
-    {
-      "outputModuleId": 9,
-      "outputId": 0,
       "inputModuleId": 7,
       "inputId": 0
     },
     {
-      "outputModuleId": 7,
+      "outputModuleId": 4,
+      "outputId": 2,
+      "inputModuleId": 5,
+      "inputId": 4
+    },
+    {
+      "outputModuleId": 5,
       "outputId": 0,
       "inputModuleId": 3,
       "inputId": 0
     },
     {
-      "outputModuleId": 9,
+      "outputModuleId": 3,
       "outputId": 0,
-      "inputModuleId": 7,
+      "inputModuleId": 2,
+      "inputId": 0
+    },
+    {
+      "outputModuleId": 5,
+      "outputId": 0,
+      "inputModuleId": 3,
       "inputId": 1
     },
     {
-      "outputModuleId": 10,
+      "outputModuleId": 6,
       "outputId": 1,
-      "inputModuleId": 9,
+      "inputModuleId": 5,
       "inputId": 5
     },
     {
-      "outputModuleId": 8,
+      "outputModuleId": 4,
       "outputId": 4,
-      "inputModuleId": 10,
+      "inputModuleId": 6,
       "inputId": 1
+    },
+    {
+      "outputModuleId": 9,
+      "outputId": 0,
+      "inputModuleId": 8,
+      "inputId": 0
+    },
+    {
+      "outputModuleId": 4,
+      "outputId": 2,
+      "inputModuleId": 9,
+      "inputId": 0
+    },
+    {
+      "outputModuleId": 10,
+      "outputId": 0,
+      "inputModuleId": 9,
+      "inputId": 1
+    },
+    {
+      "outputModuleId": 3,
+      "outputId": 2,
+      "inputModuleId": 11,
+      "inputId": 0
+    },
+    {
+      "outputModuleId": 5,
+      "outputId": 0,
+      "inputModuleId": 3,
+      "inputId": 2
+    },
+    {
+      "outputModuleId": 11,
+      "outputId": 1,
+      "inputModuleId": 12,
+      "inputId": 2
     },
     {
       "outputModuleId": 12,
       "outputId": 0,
-      "inputModuleId": 5,
+      "inputModuleId": 13,
+      "inputId": 2
+    },
+    {
+      "outputModuleId": 8,
+      "outputId": 0,
+      "inputModuleId": 0,
+      "inputId": 1
+    },
+    {
+      "outputModuleId": 1,
+      "outputId": 3,
+      "inputModuleId": 12,
+      "inputId": 1
+    },
+    {
+      "outputModuleId": 2,
+      "outputId": 3,
+      "inputModuleId": 12,
       "inputId": 0
     },
     {
       "outputModuleId": 13,
       "outputId": 0,
-      "inputModuleId": 12,
-      "inputId": 0
+      "inputModuleId": 8,
+      "inputId": 3
     },
     {
       "outputModuleId": 8,
-      "outputId": 2,
-      "inputModuleId": 13,
-      "inputId": 0
-    },
-    {
-      "outputModuleId": 14,
       "outputId": 0,
-      "inputModuleId": 13,
-      "inputId": 1
+      "inputModuleId": 0,
+      "inputId": 0
     }
   ]
 }
