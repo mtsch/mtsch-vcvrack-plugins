@@ -66,20 +66,30 @@ void Rationals::step() {
         num = num <= 0 ? 1 : num;
         den = den <= 0 ? 1 : den;
 
-        display[0 + offset] = int(num / 10.0) % 10 + '0';
-        display[1 + offset] = int(num / 1.0)  % 10 + '0';
-        if (display[0 + offset] == '0') display[0 + offset] = '\0';
+        int dig1 = int(num / 10.0) % 10;
+        int dig2 = int(num) % 10;
+        if (dig1 != 0) {
+            display[0 + offset] = dig1 + '0';
+        } else {
+            display[0 + offset] = '\0';
+        }
+        display[1 + offset] = dig2 + '0';
 
-        display[2 + offset] = int(den / 10.0) % 10 + '0';
-        display[3 + offset] = int(den / 1.0)  % 10 + '0';
-        if (display[2 + offset] == '0') display[2 + offset] = '\0';
-
+        dig1 = int(den / 10.0) % 10;
+        dig2 = int(den) % 10;
+        if (dig1 != 0) {
+            display[2 + offset] = dig1 + '0';
+        } else {
+            display[2 + offset] = '\0';
+        }
+        display[3 + offset] = dig2 + '0';
 
         float rational = num / den;
+        /*
         float freq = powf(2.f, inputs[INPUTS + 3*i].value);
         freq *= rational;
-
-        outputs[OUTPUTS + i].value = log2f(freq);
+        */
+        outputs[OUTPUTS + i].value = inputs[INPUTS + 3*i].value + log2f(rational); //log2f(freq);
     }
 }
 
