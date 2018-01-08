@@ -2,10 +2,12 @@
 #include <iostream>
 
 #define NUM_CHANNELS 8
-#define SPACING 35
+
+// IO and switch positions.
 #define X_POSITION 7
 #define Y_INPUT_POSITION 77
 #define Y_OUTPUT_POSITION 23
+#define SPACING 35
 
 struct Sum : Module {
     enum ParamIds {
@@ -29,7 +31,6 @@ struct Sum : Module {
 };
 
 void Sum::step() {
-    // Sum the inputs.
     float acc = 0;
 
     for (int i = 0; i < NUM_CHANNELS; i++) {
