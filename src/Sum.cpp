@@ -3,7 +3,7 @@
 
 #define NUM_CHANNELS 8
 #define SPACING 35
-#define X_POSITION 10
+#define X_POSITION 7
 #define Y_INPUT_POSITION 77
 #define Y_OUTPUT_POSITION 23
 
