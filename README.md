@@ -1,7 +1,7 @@
 # mtsch plugins
 
 My modules for [VCVRack](https://github.com/VCVRack/Rack). If you find any bugs,
-let me know.
+or make something cool with them, let me know.
 
 ### Rationals
 
