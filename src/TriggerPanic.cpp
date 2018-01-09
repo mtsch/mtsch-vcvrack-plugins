@@ -5,43 +5,45 @@
 // Buffer length in seconds.
 #define BUFFER_LENGTH 10
 
-#define MAIN_Y 130
+#define MAIN_X 25
+#define MAIN_Y 40
+#define Y_SPACING 80
+#define X_INPUT_OFFSET 7
+
+// Trigger and button
+#define TRIGGER_X MAIN_X + X_INPUT_OFFSET
+#define TRIGGER_Y MAIN_Y
+
+#define PANIC_X MAIN_X + 70 -1
+#define PANIC_Y MAIN_Y - 1
+#define BUFF_X MAIN_X + 100
+#define BUFF_Y MAIN_Y + 10
 
 // Feedback and Mix positions.
-#define MIX_GROUP_X 20
-#define MIX_GROUP_Y MAIN_Y
-#define FB_GROUP_X 60
-#define FB_GROUP_Y MAIN_Y
+#define MIX_GROUP_X MAIN_X
+#define MIX_GROUP_Y MAIN_Y + Y_SPACING
+#define FB_GROUP_X MAIN_X
+#define FB_GROUP_Y MAIN_Y + 2*Y_SPACING
 
 // Feedback and Mix offsets.
-#define MF_GROUP_CV_AMT_Y 44
-#define MF_GROUP_CV_AMT_X 9
-#define MF_GROUP_CV_IN_Y 70
-#define MF_GROUP_CV_IN_X 6
-
-#define AUDIO_IN_X 25
-#define AUDIO_OUT_X 100
-#define AUDIO_IO_Y 320
+#define MF_GROUP_CV_AMT_X 44
+#define MF_GROUP_CV_AMT_Y 9
+#define MF_GROUP_CV_IN_X 70
+#define MF_GROUP_CV_IN_Y 6
 
 // Aux group.
-#define AUX_X 110
-#define AUX_Y MAIN_Y
-#define AUX_IN_Y 7
-#define AUX_LIGHT_X 9
-#define AUX_LIGHT_Y MF_GROUP_CV_AMT_Y + 5
-#define AUX_OUT_Y MF_GROUP_CV_IN_Y
+#define AUX_X MAIN_X + X_INPUT_OFFSET
+#define AUX_Y MAIN_Y + 3*Y_SPACING + 5
+#define AUX_IN_X 7
+#define AUX_LIGHT_Y AUX_Y + 9
+#define AUX_LIGHT_X MAIN_X + MF_GROUP_CV_AMT_X + 3
+#define AUX_OUT_X MAIN_X + MF_GROUP_CV_IN_X
 
-// Panic / buff full.
-#define PANIC_X 15
-#define PANIC_Y MAIN_Y + 110
-#define BUFF_X 30
-#define BUFF_Y 10
+#define AUDIO_IN_X MAIN_X + X_INPUT_OFFSET
+#define AUDIO_OUT_X AUX_OUT_X
+#define AUDIO_IO_Y MAIN_Y + 3*Y_SPACING + Y_SPACING/2 + 10
 
-// Trigger
-#define TRIGGER_X 15
-#define TRIGGER_Y 20
-
-struct TriggerFish : Module {
+struct TriggerPanic : Module {
     enum ParamIds {
         FEEDBACK_KNOB,
         MIX_KNOB,
@@ -88,7 +90,7 @@ struct TriggerFish : Module {
     int current_i;
     int buff_len;
 
-    TriggerFish() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
+    TriggerPanic() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {
         buff_len = BUFFER_LENGTH * engineGetSampleRate();
         buff = new float[buff_len];
     }
@@ -103,7 +105,7 @@ struct TriggerFish : Module {
     void step() override;
 };
 
-void TriggerFish::step() {
+void TriggerPanic::step() {
     // TODO: cv control
     //       panic button
     //       gui
@@ -155,59 +157,64 @@ void TriggerFish::step() {
     }
 }
 
-TriggerFishWidget::TriggerFishWidget() {
+TriggerPanicWidget::TriggerPanicWidget() {
 
-    TriggerFish *module = new TriggerFish();
+    TriggerPanic *module = new TriggerPanic();
     setModule(module);
     box.size = Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
     {
         SVGPanel *panel = new SVGPanel();
         panel->box.size = box.size;
-        panel->setBackground(SVG::load(assetPlugin(plugin, "res/TriggerFish.svg")));
+        panel->setBackground(SVG::load(assetPlugin(plugin, "res/TriggerPanic.svg")));
         addChild(panel);
     }
 
+    addChild(createScrew<ScrewBlack>(Vec(15, 0)));
+	addChild(createScrew<ScrewBlack>(Vec(box.size.x-30, 0)));
+	addChild(createScrew<ScrewBlack>(Vec(15, 365)));
+	addChild(createScrew<ScrewBlack>(Vec(box.size.x-30, 365)));
 
     // Trigger in.
     addInput(createInput<PJ301MPort>(Vec(TRIGGER_X, TRIGGER_Y),
-                                     module, TriggerFish::TRIGGER_IN));
+                                     module, TriggerPanic::TRIGGER_IN));
 
-    // Audio IO.
-    addInput(createInput<PJ301MPort>(Vec(AUDIO_IN_X, AUDIO_IO_Y),
-                                     module, TriggerFish::AUDIO_IN));
-    addOutput(createOutput<PJ301MPort>(Vec(AUDIO_OUT_X, AUDIO_IO_Y),
-                                       module, TriggerFish::AUDIO_OUT));
-
-    // Aux IO.
-    addInput(createInput<PJ301MPort>(Vec(AUX_X, AUX_Y + AUX_IN_Y),
-                                     module, TriggerFish::AUX_IN));
-    addChild(createLight<SmallLight<RedLight>>(Vec(AUX_X + AUX_LIGHT_X, AUX_Y + AUX_LIGHT_Y),
-                                               module, TriggerFish::AUX_ACTIVE_LIGHT));
-    addOutput(createOutput<PJ301MPort>(Vec(AUX_X, AUX_Y + AUX_OUT_Y),
-                                       module, TriggerFish::AUX_OUT));
-
-    // Feedback.
-    addParam(createParam<Davies1900hBlackKnob>(Vec(FB_GROUP_X, FB_GROUP_Y),
-                                               module, TriggerFish::FEEDBACK_KNOB, 0, 1, 0.5));
-    addParam(createParam<Trimpot>(Vec(FB_GROUP_X + MF_GROUP_CV_AMT_X, FB_GROUP_Y + MF_GROUP_CV_AMT_Y),
-                                  module, TriggerFish::FEEDBACK_CV_AMT, -1, 1, 0));
-    addInput(createInput<PJ301MPort>(Vec(FB_GROUP_X + MF_GROUP_CV_IN_X, FB_GROUP_Y + MF_GROUP_CV_IN_Y),
-                                     module, TriggerFish::FEEDBACK_CV));
+    // Panic.
+    addParam(createParam<BefacoPush>(Vec(PANIC_X, PANIC_Y),
+                                     module, TriggerPanic::PANIC_BUTTON, 0, 1, 0));
+    addChild(createLight<SmallLight<RedLight>>(Vec(BUFF_X, BUFF_Y),
+                                               module, TriggerPanic::BUFF_FULL_LIGHT));
 
     // Mix.
     addParam(createParam<Davies1900hBlackKnob>(Vec(MIX_GROUP_X, MIX_GROUP_Y),
-                                               module, TriggerFish::MIX_KNOB, 0, 1, 0.5));
+                                               module, TriggerPanic::MIX_KNOB, 0, 1, 0.5));
     addParam(createParam<Trimpot>(Vec(MIX_GROUP_X + MF_GROUP_CV_AMT_X, MIX_GROUP_Y + MF_GROUP_CV_AMT_Y),
-                                  module, TriggerFish::MIX_CV_AMT, -1, 1, 0));
+                                  module, TriggerPanic::MIX_CV_AMT, -1, 1, 0));
     addInput(createInput<PJ301MPort>(Vec(MIX_GROUP_X + MF_GROUP_CV_IN_X, MIX_GROUP_Y + MF_GROUP_CV_IN_Y),
-                                     module, TriggerFish::MIX_CV));
+                                     module, TriggerPanic::MIX_CV));
+
+    // Feedback.
+    addParam(createParam<Davies1900hBlackKnob>(Vec(FB_GROUP_X, FB_GROUP_Y),
+                                               module, TriggerPanic::FEEDBACK_KNOB, 0, 1, 0.5));
+    addParam(createParam<Trimpot>(Vec(FB_GROUP_X + MF_GROUP_CV_AMT_X, FB_GROUP_Y + MF_GROUP_CV_AMT_Y),
+                                  module, TriggerPanic::FEEDBACK_CV_AMT, -1, 1, 0));
+    addInput(createInput<PJ301MPort>(Vec(FB_GROUP_X + MF_GROUP_CV_IN_X, FB_GROUP_Y + MF_GROUP_CV_IN_Y),
+                                     module, TriggerPanic::FEEDBACK_CV));
+
+    // Aux IO.
+    addInput(createInput<PJ301MPort>(Vec(AUX_X, AUX_Y),
+                                     module, TriggerPanic::AUX_IN));
+    addChild(createLight<SmallLight<GreenLight>>(Vec(AUX_LIGHT_X, AUX_LIGHT_Y),
+                                                 module, TriggerPanic::AUX_ACTIVE_LIGHT));
+    addOutput(createOutput<PJ301MPort>(Vec(AUX_OUT_X, AUX_Y),
+                                       module, TriggerPanic::AUX_OUT));
+
+    // Audio IO.
+    addInput(createInput<PJ301MPort>(Vec(AUDIO_IN_X, AUDIO_IO_Y),
+                                     module, TriggerPanic::AUDIO_IN));
+    addOutput(createOutput<PJ301MPort>(Vec(AUDIO_OUT_X, AUDIO_IO_Y),
+                                       module, TriggerPanic::AUDIO_OUT));
 
 
 
-    // Lights.
-    addParam(createParam<BefacoPush>(Vec(PANIC_X, PANIC_Y),
-                                     module, TriggerFish::PANIC_BUTTON, 0, 1, 0));
-    addChild(createLight<SmallLight<RedLight>>(Vec(PANIC_X + BUFF_X, PANIC_Y + BUFF_Y),
-                                               module, TriggerFish::BUFF_FULL_LIGHT));
 }

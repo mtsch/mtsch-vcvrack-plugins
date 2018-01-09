@@ -12,6 +12,6 @@ struct RationalsWidget : ModuleWidget {
     RationalsWidget();
 };
 
-struct TriggerFishWidget : ModuleWidget {
-    TriggerFishWidget();
+struct TriggerPanicWidget : ModuleWidget {
+    TriggerPanicWidget();
 };
