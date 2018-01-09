@@ -7,6 +7,7 @@
   "homepage": "https://github.com/mtsch/mtsch-vcvrack-plugins",
   "manual": "https://github.com/mtsch/mtsch-vcvrack-plugins",
   "source": "https://github.com/mtsch/mtsch-vcvrack-plugins",
+  "donation": "https://www.paypal.me/matcuf",
   "downloads": {
     "lin": {
       "download": "https://github.com/mtsch/mtsch-vcvrack-plugins/releases/download/v0.5.1/mtsch-plugins-0.5.1-lin.zip",
