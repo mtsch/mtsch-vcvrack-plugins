@@ -12,7 +12,7 @@ music in [just intonation](https://en.wikipedia.org/wiki/Just_intonation) (see
 [`examples`](examples) for basic examples).
 
 Multiple Rationals can be daisy chained, see
-[`examples/rationals-bassline.vcv`](examples/example-rationals-bassline.vcv). Use
+[`examples/rationals-bassline.vcv`](examples/rationals-bassline.vcv). Use
 Sum to combine outputs of multiple Rationals.
 
 ### Trigger Panic!
@@ -22,8 +22,8 @@ Sum to combine outputs of multiple Rationals.
 A triggered/tempo synchronized delay. Starts playing/writing into a buffer on
 trigger input. Mix and feedback are CV controlled. The buffer holds 10 seconds
 of audio. Trigger it with a regular clock to get a tempo delay (see
-[`examples/triggerpanic-rationals-dubtechno.vcv`]). Triggering it with irregular
-triggers produces glitchy noises (see
+[`examples/triggerpanic-rationals-dubtechno.vcv`](examples/triggerpanic-rationals-dubtechno.vcv)).
+Triggering it with irregular triggers produces glitchy noises (see
 [`examples/triggerpanic-breakcore.vcv`](examples/triggerpanic-breakcore.vcv)).
 
 Optionally, you can use the AUX input and output to feed audio into the feedback
