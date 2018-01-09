@@ -1,6 +1,7 @@
 # mtsch plugins
 
-My modules for [VCVRack](https://github.com/VCVRack/Rack).
+My modules for [VCVRack](https://github.com/VCVRack/Rack). If you find any bugs,
+let me know.
 
 ### Rationals
 
@@ -23,11 +24,11 @@ A triggered/tempo synchronized delay. Starts playing/writing into a buffer on
 trigger input. Mix and feedback are CV controlled. The buffer holds 10 seconds
 of audio. Trigger it with a regular clock to get a tempo delay (see
 [`examples/triggerpanic-rationals-dubtechno.vcv`](examples/triggerpanic-rationals-dubtechno.vcv)).
-Triggering it with irregular triggers produces glitchy noises (see
+Trigger it with an irregular clock to produce unpredictable glitchy noises (see
 [`examples/triggerpanic-breakcore.vcv`](examples/triggerpanic-breakcore.vcv)).
 
 Optionally, you can use the AUX input and output to feed audio into the feedback
-loop or thread the loop through your effect chains.
+loop or thread the feedback loop through an effect chain.
 
 ### Sum
 
