@@ -4,14 +4,7 @@ using namespace rack;
 
 extern Plugin *plugin;
 
-struct SumWidget : ModuleWidget {
-    SumWidget();
-};
+extern Model *modelSum;
+extern Model *modelTriggerPanic;
+extern Model *modelRationals;
 
-struct RationalsWidget : ModuleWidget {
-    RationalsWidget();
-};
-
-struct TriggerPanicWidget : ModuleWidget {
-    TriggerPanicWidget();
-};
