@@ -1,6 +1,7 @@
 SLUG = mtsch-plugins
 VERSION = 0.5.2
 
+RACK_DIR ?= ../..
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS +=
 CFLAGS +=
@@ -18,4 +19,4 @@ SOURCES += $(wildcard src/*.cpp)
 DISTRIBUTABLES += $(wildcard LICENSE* plugin.*) res
 
 # Include the VCV plugin Makefile framework
-include ../../plugin.mk
+include $(RACK_DIR)/plugin.mk

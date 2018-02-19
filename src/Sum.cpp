@@ -40,9 +40,11 @@ void Sum::step() {
     outputs[OUTPUT].value = acc;
 }
 
-SumWidget::SumWidget() {
-    Sum *module = new Sum();
-    setModule(module);
+struct SumWidget : ModuleWidget {
+	SumWidget(Sum *module);
+};
+
+SumWidget::SumWidget(Sum *module) : ModuleWidget(module) {
     box.size = Vec(4 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
     {
@@ -52,15 +54,19 @@ SumWidget::SumWidget() {
         addChild(panel);
     }
 
-    addChild(createScrew<ScrewSilver>(Vec(0, 0)));
-    addChild(createScrew<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    addChild(Widget::create<ScrewSilver>(Vec(0, 0)));
+    addChild(Widget::create<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
     for (int i = 0; i < NUM_CHANNELS; i++) {
-        addInput(createInput<PJ301MPort>(Vec(X_POSITION, Y_INPUT_POSITION + i * SPACING),
-                                         module, Sum::INPUTS + i));
-        addParam(createParam<CKSSThree>(Vec(X_POSITION + 30, Y_INPUT_POSITION + i * SPACING),
+        addInput(Port::create<PJ301MPort>(Vec(X_POSITION, Y_INPUT_POSITION + i * SPACING),
+                                         Port::INPUT, module, Sum::INPUTS + i));
+        addParam(ParamWidget::create<CKSSThree>(Vec(X_POSITION + 30, Y_INPUT_POSITION + i * SPACING),
                                         module, Sum::PARAMS + i, -1, 1, 1));
     }
 
-    addOutput(createOutput<PJ301MPort>(Vec(X_POSITION, Y_OUTPUT_POSITION), module, Sum::OUTPUT));
+    addOutput(Port::create<PJ301MPort>(Vec(X_POSITION, Y_OUTPUT_POSITION), Port::OUTPUT, module, Sum::OUTPUT));
 }
+
+
+Model *modelSum = Model::create<Sum, SumWidget>(
+        "mtsch", "Sum", "Sum", UTILITY_TAG);
