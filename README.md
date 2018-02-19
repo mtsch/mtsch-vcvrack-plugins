@@ -43,3 +43,5 @@ signal when adding audio signals.
 
 Digital display in Rationals taken from
 [luckyxxl](https://github.com/luckyxxl/vcv_luckyxxl).
+
+Thanks to [alikins](https://github.com/alikins) for porting to the v0.6 API.
