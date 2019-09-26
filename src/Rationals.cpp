@@ -43,7 +43,9 @@ struct Rationals : Module {
         NUM_LIGHTS
     };
 
-    Rationals() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+    Rationals() {
+			config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+    }
     void step() override;
 
     char display[4*NUM_CHANNELS];
@@ -91,58 +93,61 @@ struct RationalsWidget : ModuleWidget {
 };
 
 
-RationalsWidget::RationalsWidget(Rationals *module) : ModuleWidget(module) {
+RationalsWidget::RationalsWidget(Rationals *module) {
+		setModule(module);
 
     box.size = Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
     {
         SVGPanel *panel = new SVGPanel();
         panel->box.size = box.size;
-        panel->setBackground(SVG::load(assetPlugin(plugin, "res/Rationals.svg")));
+        panel->setBackground(SVG::load(assetPlugin(pluginInstance, "res/Rationals.svg")));
         addChild(panel);
     }
 
-    addChild(Widget::create<ScrewSilver>(Vec(0, 0)));
-    addChild(Widget::create<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    addChild(createWidget<ScrewSilver>(Vec(0, 0)));
+    addChild(createWidget<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
     for (int i = 0; i < NUM_CHANNELS; i++) {
         int y_pos = Y_POS + i * CHANNEL_SPACING;
 
         int offset = NUM_CHANNELS * i;
         int digit_x = X_POS + KNOB_X_OFFSET + DIGIT_X_OFFSET;
-        // Numerator digits.
-        addChild(new DigitDisplay(Vec(digit_x, y_pos + DIGIT_Y_OFFSET),
+
+       if (module) {
+          // Numerator digits.
+          addChild(new DigitDisplay(Vec(digit_x, y_pos + DIGIT_Y_OFFSET),
                                   5.f, &module->display[0+offset]));
-        addChild(new DigitDisplay(Vec(digit_x + DIGIT_SPACING, y_pos + DIGIT_Y_OFFSET),
+          addChild(new DigitDisplay(Vec(digit_x + DIGIT_SPACING, y_pos + DIGIT_Y_OFFSET),
                                   5.f, &module->display[1+offset]));
-        // Denominator digits.
-        addChild(new DigitDisplay(Vec(digit_x, y_pos + DIGIT_Y_OFFSET + NUMDEN_SPACING),
+          // Denominator digits.
+          addChild(new DigitDisplay(Vec(digit_x, y_pos + DIGIT_Y_OFFSET + NUMDEN_SPACING),
                                   5.f, &module->display[2+offset]));
-        addChild(new DigitDisplay(Vec(digit_x + DIGIT_SPACING, y_pos + DIGIT_Y_OFFSET + NUMDEN_SPACING),
+          addChild(new DigitDisplay(Vec(digit_x + DIGIT_SPACING, y_pos + DIGIT_Y_OFFSET + NUMDEN_SPACING),
                                   5.f, &module->display[3+offset]));
+       }
 
         // Numerator knob.
-        addParam(ParamWidget::create<RoundSmallBlackKnob>(Vec(X_POS + KNOB_X_OFFSET, y_pos),
+        addParam(createParam<RoundSmallBlackKnob>(Vec(X_POS + KNOB_X_OFFSET, y_pos),
                                                   module, Rationals::PARAMS + 2*i, 1, MAX_VALUE, 1));
         // Denominator knob.
-        addParam(ParamWidget::create<RoundSmallBlackKnob>(Vec(X_POS + KNOB_X_OFFSET, y_pos + NUMDEN_SPACING),
+        addParam(createParam<RoundSmallBlackKnob>(Vec(X_POS + KNOB_X_OFFSET, y_pos + NUMDEN_SPACING),
                                                   module, Rationals::PARAMS + 1 + 2*i, 1, MAX_VALUE, 1));
 
         // IO.
-        addInput(Port::create<PJ301MPort>(Vec(X_POS, y_pos + IO_Y_OFFSET),
-                                         Port::INPUT, module, Rationals::INPUTS + i*3));
-        addOutput(Port::create<PJ301MPort>(Vec(X_POS + OUT_X_OFFSET, y_pos + IO_Y_OFFSET),
-                                           Port::OUTPUT, module, Rationals::OUTPUTS + i));
+        addInput(createPort<PJ301MPort>(Vec(X_POS, y_pos + IO_Y_OFFSET),
+                                         PortWidget::INPUT, module, Rationals::INPUTS + i*3));
+        addOutput(createPort<PJ301MPort>(Vec(X_POS + OUT_X_OFFSET, y_pos + IO_Y_OFFSET),
+                                           PortWidget::OUTPUT, module, Rationals::OUTPUTS + i));
     }
 
     // CV mod grid.
     for (int i = 0; i < NUM_CHANNELS; i++) {
-        addInput(Port::create<PJ301MPort>(Vec(GRID_X_POS + i*GRID_SPACING, GRID_Y_POS),
-                                         Port::INPUT, module, Rationals::INPUTS + 1 + i*3));
-        addInput(Port::create<PJ301MPort>(Vec(GRID_X_POS + i*GRID_SPACING, GRID_Y_POS + GRID_SPACING),
-                                         Port::INPUT, module, Rationals::INPUTS + 2 + i*3));
+        addInput(createPort<PJ301MPort>(Vec(GRID_X_POS + i*GRID_SPACING, GRID_Y_POS),
+                                         PortWidget::INPUT, module, Rationals::INPUTS + 1 + i*3));
+        addInput(createPort<PJ301MPort>(Vec(GRID_X_POS + i*GRID_SPACING, GRID_Y_POS + GRID_SPACING),
+                                         PortWidget::INPUT, module, Rationals::INPUTS + 2 + i*3));
     }
 }
 
-Model *modelRationals = Model::create<Rationals, RationalsWidget>(
-        "mtsch", "Rationals", "Rationals", UTILITY_TAG);
+Model *modelRationals = createModel<Rationals, RationalsWidget>("Rationals");

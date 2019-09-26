@@ -26,7 +26,9 @@ struct Sum : Module {
         NUM_LIGHTS
     };
 
-    Sum() : Module(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS) {}
+    Sum() {
+			config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+    }
     void step() override;
 };
 
@@ -44,29 +46,29 @@ struct SumWidget : ModuleWidget {
 	SumWidget(Sum *module);
 };
 
-SumWidget::SumWidget(Sum *module) : ModuleWidget(module) {
+SumWidget::SumWidget(Sum *module) {
+		setModule(module);
     box.size = Vec(4 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
     {
         SVGPanel *panel = new SVGPanel();
         panel->box.size = box.size;
-        panel->setBackground(SVG::load(assetPlugin(plugin, "res/Sum.svg")));
+        panel->setBackground(SVG::load(assetPlugin(pluginInstance, "res/Sum.svg")));
         addChild(panel);
     }
 
-    addChild(Widget::create<ScrewSilver>(Vec(0, 0)));
-    addChild(Widget::create<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
+    addChild(createWidget<ScrewSilver>(Vec(0, 0)));
+    addChild(createWidget<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
 
     for (int i = 0; i < NUM_CHANNELS; i++) {
-        addInput(Port::create<PJ301MPort>(Vec(X_POSITION, Y_INPUT_POSITION + i * SPACING),
-                                         Port::INPUT, module, Sum::INPUTS + i));
-        addParam(ParamWidget::create<CKSSThree>(Vec(X_POSITION + 30, Y_INPUT_POSITION + i * SPACING),
+        addInput(createPort<PJ301MPort>(Vec(X_POSITION, Y_INPUT_POSITION + i * SPACING),
+                                         PortWidget::INPUT, module, Sum::INPUTS + i));
+        addParam(createParam<CKSSThree>(Vec(X_POSITION + 30, Y_INPUT_POSITION + i * SPACING),
                                         module, Sum::PARAMS + i, -1, 1, 1));
     }
 
-    addOutput(Port::create<PJ301MPort>(Vec(X_POSITION, Y_OUTPUT_POSITION), Port::OUTPUT, module, Sum::OUTPUT));
+    addOutput(createPort<PJ301MPort>(Vec(X_POSITION, Y_OUTPUT_POSITION), PortWidget::OUTPUT, module, Sum::OUTPUT));
 }
 
 
-Model *modelSum = Model::create<Sum, SumWidget>(
-        "mtsch", "Sum", "Sum", UTILITY_TAG);
+Model *modelSum = createModel<Sum, SumWidget>("Sum");
