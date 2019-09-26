@@ -1,6 +1,3 @@
-SLUG = mtsch-plugins
-VERSION = 0.6.0
-
 RACK_DIR ?= ../..
 # FLAGS will be passed to both the C and C++ compiler
 FLAGS +=

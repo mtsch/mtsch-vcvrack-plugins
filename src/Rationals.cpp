@@ -44,20 +44,24 @@ struct Rationals : Module {
     };
 
     Rationals() {
-			config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+      config(NUM_PARAMS, NUM_INPUTS, NUM_OUTPUTS, NUM_LIGHTS);
+      for (int i = 0; i < NUM_CHANNELS; i++) {
+        configParam(Rationals::PARAMS + 2*i, 1, MAX_VALUE, 1);
+        configParam(Rationals::PARAMS + 1 + 2*i, 1, MAX_VALUE, 1);
+      }
     }
-    void step() override;
+    void process(const ProcessArgs& args) override;
 
     char display[4*NUM_CHANNELS];
 };
 
-void Rationals::step() {
+void Rationals::process(const ProcessArgs& args) {
 
     for (int i = 0; i < NUM_CHANNELS; i++) {
-        float num_cv  = std::round(inputs[INPUTS + 1 + 3*i].value);
-        float num_par = std::round(params[PARAMS + 2*i].value);
-        float den_cv  = std::round(inputs[INPUTS + 2 + 3*i].value);
-        float den_par = std::round(params[PARAMS + 1 + 2*i].value);
+        float num_cv  = std::round(inputs[INPUTS + 1 + 3*i].getVoltage());
+        float num_par = std::round(params[PARAMS + 2*i].getValue());
+        float den_cv  = std::round(inputs[INPUTS + 2 + 3*i].getVoltage());
+        float den_par = std::round(params[PARAMS + 1 + 2*i].getValue());
 
         float num = num_cv + num_par;
         float den = den_cv + den_par;
@@ -84,7 +88,7 @@ void Rationals::step() {
         }
         display[3 + digit_offset] = dig2 + '0';
 
-        outputs[OUTPUTS + i].value = inputs[INPUTS + 3*i].value + log2f(num/den);
+        outputs[OUTPUTS + i].setVoltage(inputs[INPUTS + 3*i].getVoltage() + log2f(num/den));
     }
 }
 
@@ -98,12 +102,7 @@ RationalsWidget::RationalsWidget(Rationals *module) {
 
     box.size = Vec(10 * RACK_GRID_WIDTH, RACK_GRID_HEIGHT);
 
-    {
-        SVGPanel *panel = new SVGPanel();
-        panel->box.size = box.size;
-        panel->setBackground(SVG::load(assetPlugin(pluginInstance, "res/Rationals.svg")));
-        addChild(panel);
-    }
+    setPanel(APP->window->loadSvg(asset::plugin(pluginInstance, "res/Rationals.svg")));
 
     addChild(createWidget<ScrewSilver>(Vec(0, 0)));
     addChild(createWidget<ScrewSilver>(Vec(0, RACK_GRID_HEIGHT - RACK_GRID_WIDTH)));
@@ -116,37 +115,27 @@ RationalsWidget::RationalsWidget(Rationals *module) {
 
        if (module) {
           // Numerator digits.
-          addChild(new DigitDisplay(Vec(digit_x, y_pos + DIGIT_Y_OFFSET),
-                                  5.f, &module->display[0+offset]));
-          addChild(new DigitDisplay(Vec(digit_x + DIGIT_SPACING, y_pos + DIGIT_Y_OFFSET),
-                                  5.f, &module->display[1+offset]));
+          addChild(new DigitDisplay(Vec(digit_x, y_pos + DIGIT_Y_OFFSET), 5.f, &module->display[0+offset]));
+          addChild(new DigitDisplay(Vec(digit_x + DIGIT_SPACING, y_pos + DIGIT_Y_OFFSET), 5.f, &module->display[1+offset]));
           // Denominator digits.
-          addChild(new DigitDisplay(Vec(digit_x, y_pos + DIGIT_Y_OFFSET + NUMDEN_SPACING),
-                                  5.f, &module->display[2+offset]));
-          addChild(new DigitDisplay(Vec(digit_x + DIGIT_SPACING, y_pos + DIGIT_Y_OFFSET + NUMDEN_SPACING),
-                                  5.f, &module->display[3+offset]));
+          addChild(new DigitDisplay(Vec(digit_x, y_pos + DIGIT_Y_OFFSET + NUMDEN_SPACING), 5.f, &module->display[2+offset]));
+          addChild(new DigitDisplay(Vec(digit_x + DIGIT_SPACING, y_pos + DIGIT_Y_OFFSET + NUMDEN_SPACING), 5.f, &module->display[3+offset]));
        }
 
         // Numerator knob.
-        addParam(createParam<RoundSmallBlackKnob>(Vec(X_POS + KNOB_X_OFFSET, y_pos),
-                                                  module, Rationals::PARAMS + 2*i, 1, MAX_VALUE, 1));
+        addParam(createParam<RoundSmallBlackKnob>(Vec(X_POS + KNOB_X_OFFSET, y_pos), module, Rationals::PARAMS + 2*i));
         // Denominator knob.
-        addParam(createParam<RoundSmallBlackKnob>(Vec(X_POS + KNOB_X_OFFSET, y_pos + NUMDEN_SPACING),
-                                                  module, Rationals::PARAMS + 1 + 2*i, 1, MAX_VALUE, 1));
+        addParam(createParam<RoundSmallBlackKnob>(Vec(X_POS + KNOB_X_OFFSET, y_pos + NUMDEN_SPACING), module, Rationals::PARAMS + 1 + 2*i));
 
         // IO.
-        addInput(createPort<PJ301MPort>(Vec(X_POS, y_pos + IO_Y_OFFSET),
-                                         PortWidget::INPUT, module, Rationals::INPUTS + i*3));
-        addOutput(createPort<PJ301MPort>(Vec(X_POS + OUT_X_OFFSET, y_pos + IO_Y_OFFSET),
-                                           PortWidget::OUTPUT, module, Rationals::OUTPUTS + i));
+        addInput(createInput<PJ301MPort>(Vec(X_POS, y_pos + IO_Y_OFFSET), module, Rationals::INPUTS + i*3));
+        addOutput(createOutput<PJ301MPort>(Vec(X_POS + OUT_X_OFFSET, y_pos + IO_Y_OFFSET), module, Rationals::OUTPUTS + i));
     }
 
     // CV mod grid.
     for (int i = 0; i < NUM_CHANNELS; i++) {
-        addInput(createPort<PJ301MPort>(Vec(GRID_X_POS + i*GRID_SPACING, GRID_Y_POS),
-                                         PortWidget::INPUT, module, Rationals::INPUTS + 1 + i*3));
-        addInput(createPort<PJ301MPort>(Vec(GRID_X_POS + i*GRID_SPACING, GRID_Y_POS + GRID_SPACING),
-                                         PortWidget::INPUT, module, Rationals::INPUTS + 2 + i*3));
+        addInput(createInput<PJ301MPort>(Vec(GRID_X_POS + i*GRID_SPACING, GRID_Y_POS), module, Rationals::INPUTS + 1 + i*3));
+        addInput(createInput<PJ301MPort>(Vec(GRID_X_POS + i*GRID_SPACING, GRID_Y_POS + GRID_SPACING), module, Rationals::INPUTS + 2 + i*3));
     }
 }
 
