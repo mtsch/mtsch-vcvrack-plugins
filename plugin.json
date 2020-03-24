@@ -1,0 +1,41 @@
+{
+  "slug": "mtsch-plugins",
+  "name": "mtsch",
+  "version": "1.0.0",
+  "license": "MIT",
+  "brand": "mtsch",
+  "author": "mtsch",
+  "authorEmail": "",
+  "authorUrl": "",
+  "pluginUrl": "https://github.com/mtsch/mtsch-vcvrack-plugins",
+  "manualUrl": "https://github.com/mtsch/mtsch-vcvrack-plugins",
+  "sourceUrl": "https://github.com/mtsch/mtsch-vcvrack-plugins",
+  "donateUrl": "https://www.paypal.me/matcuf",
+  "changelogUrl": "",
+  "modules": [
+    {
+      "slug": "Rationals",
+      "name": "Rationals",
+      "description": "",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "Sum",
+      "name": "Sum",
+      "description": "",
+      "tags": [
+        "Utility"
+      ]
+    },
+    {
+      "slug": "TriggerPanic",
+      "name": "Trigger Panic!",
+      "description": "",
+      "tags": [
+        "Delay"
+      ]
+    }
+  ]
+}
