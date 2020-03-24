@@ -1,7 +1,8 @@
 # mtsch plugins
 
-My modules for [VCVRack](https://github.com/VCVRack/Rack). If you find any bugs,
-or make something cool with them, let me know.
+My modules for [VCVRack](https://github.com/VCVRack/Rack). I am currently unable to maintain
+this project because I have problems with running Rack on my computer. If you want to become
+a maintainer, let me know.
 
 ### Rationals
 
@@ -36,7 +37,7 @@ loop or thread the feedback loop through an effect chain.
 
 Add, subtract or mute signals.
 
-Note that this adds the signals directly, so make sure to attentuate the output
+Note that this adds the signals directly, so make sure to attenuate the output
 signal when adding audio signals.
 
 ## Thanks
@@ -45,3 +46,5 @@ Digital display in Rationals taken from
 [luckyxxl](https://github.com/luckyxxl/vcv_luckyxxl).
 
 Thanks to [alikins](https://github.com/alikins) for porting to the v0.6 API.
+
+Thanks to [netboy3](https://github.com/netboy3) for porting to the v1.0 API.
