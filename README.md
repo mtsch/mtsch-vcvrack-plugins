@@ -1,8 +1,6 @@
 # mtsch plugins
 
-My modules for [VCVRack](https://github.com/VCVRack/Rack). I am currently unable to maintain
-this project because I have problems with running Rack on my computer. If you want to become
-a maintainer, let me know.
+My modules for [VCVRack](https://github.com/VCVRack/Rack).
 
 ### Rationals
 
